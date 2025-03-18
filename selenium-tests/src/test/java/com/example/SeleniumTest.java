@@ -12,17 +12,18 @@ import org.testng.annotations.Test;
 public class SeleniumTest {
 
     private WebDriver driver;
-    private String testUrl = System.getProperty("testUrl", "https://default-url.com");
+   private String testUrl = System.getProperty("testUrl", "https://default-url.com");
 private String browser = System.getProperty("browser", "chrome");
 
 @BeforeMethod
 public void setup() {
-    // Fallback if properties are passed as "null"
-    if ("null".equalsIgnoreCase(testUrl)) {
+    // Fallback for empty URL
+    if (testUrl == null || testUrl.trim().isEmpty()) {
         testUrl = "https://default-url.com";
     }
-    if ("null".equalsIgnoreCase(browser)) {
-        browser = "chrome";
+    // Optionally ensure URL has a protocol
+    if (!testUrl.toLowerCase().startsWith("http://") && !testUrl.toLowerCase().startsWith("https://")) {
+        testUrl = "https://" + testUrl;
     }
     // Initialize driver based on browser parameter
     switch (browser.toLowerCase()) {
@@ -38,6 +39,7 @@ public void setup() {
             break;
     }
 }
+
 
 
     @Test
