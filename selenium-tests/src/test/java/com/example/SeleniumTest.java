@@ -16,21 +16,33 @@ public class SeleniumTest {
     private String browser = System.getProperty("browser", "chrome");
 
     @BeforeMethod
-    public void setup() {
-        // Initialize driver based on browser parameter
-        switch (browser.toLowerCase()) {
-            case "firefox":
-                driver = new FirefoxDriver();
-                break;
-            case "edge":
-                driver = new EdgeDriver();
-                break;
-            case "chrome":
-            default:
-                driver = new ChromeDriver();
-                break;
-        }
+public void setup() {
+    testUrl = System.getProperty("testUrl", "").trim();
+    if (testUrl.isEmpty()) {
+        testUrl = "https://chatgpt.com"; // fallback value
     }
+    browser = System.getProperty("browser", "chrome").trim();
+    if (browser.isEmpty()) {
+        browser = "chrome"; // fallback value
+    }
+    // Optionally ensure the URL has a protocol
+    if (!testUrl.toLowerCase().startsWith("http://") && !testUrl.toLowerCase().startsWith("https://")) {
+        testUrl = "https://" + testUrl;
+    }
+    switch (browser.toLowerCase()) {
+        case "firefox":
+            driver = new FirefoxDriver();
+            break;
+        case "edge":
+            driver = new EdgeDriver();
+            break;
+        case "chrome":
+        default:
+            driver = new ChromeDriver();
+            break;
+    }
+}
+
 
     @Test
     public void testWebsiteTitle() {
