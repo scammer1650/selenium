@@ -13,24 +13,32 @@ public class SeleniumTest {
 
     private WebDriver driver;
     private String testUrl = System.getProperty("testUrl", "https://default-url.com");
-    private String browser = System.getProperty("browser", "chrome");
+private String browser = System.getProperty("browser", "chrome");
 
-    @BeforeMethod
-    public void setup() {
-        // Initialize driver based on browser parameter
-        switch (browser.toLowerCase()) {
-            case "firefox":
-                driver = new FirefoxDriver();
-                break;
-            case "edge":
-                driver = new EdgeDriver();
-                break;
-            case "chrome":
-            default:
-                driver = new ChromeDriver();
-                break;
-        }
+@BeforeMethod
+public void setup() {
+    // Fallback if properties are passed as "null"
+    if ("null".equalsIgnoreCase(testUrl)) {
+        testUrl = "https://default-url.com";
     }
+    if ("null".equalsIgnoreCase(browser)) {
+        browser = "chrome";
+    }
+    // Initialize driver based on browser parameter
+    switch (browser.toLowerCase()) {
+        case "firefox":
+            driver = new FirefoxDriver();
+            break;
+        case "edge":
+            driver = new EdgeDriver();
+            break;
+        case "chrome":
+        default:
+            driver = new ChromeDriver();
+            break;
+    }
+}
+
 
     @Test
     public void testWebsiteTitle() {
