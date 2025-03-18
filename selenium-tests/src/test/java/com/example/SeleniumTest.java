@@ -12,35 +12,25 @@ import org.testng.annotations.Test;
 public class SeleniumTest {
 
     private WebDriver driver;
-   private String testUrl = System.getProperty("testUrl", "https://default-url.com");
-private String browser = System.getProperty("browser", "chrome");
+    private String testUrl = System.getProperty("testUrl", "https://default-url.com");
+    private String browser = System.getProperty("browser", "chrome");
 
-@BeforeMethod
-public void setup() {
-    // Fallback for empty URL
-    if (testUrl == null || testUrl.trim().isEmpty()) {
-        testUrl = "https://default-url.com";
+    @BeforeMethod
+    public void setup() {
+        // Initialize driver based on browser parameter
+        switch (browser.toLowerCase()) {
+            case "firefox":
+                driver = new FirefoxDriver();
+                break;
+            case "edge":
+                driver = new EdgeDriver();
+                break;
+            case "chrome":
+            default:
+                driver = new ChromeDriver();
+                break;
+        }
     }
-    // Optionally ensure URL has a protocol
-    if (!testUrl.toLowerCase().startsWith("http://") && !testUrl.toLowerCase().startsWith("https://")) {
-        testUrl = "https://" + testUrl;
-    }
-    // Initialize driver based on browser parameter
-    switch (browser.toLowerCase()) {
-        case "firefox":
-            driver = new FirefoxDriver();
-            break;
-        case "edge":
-            driver = new EdgeDriver();
-            break;
-        case "chrome":
-        default:
-            driver = new ChromeDriver();
-            break;
-    }
-}
-
-
 
     @Test
     public void testWebsiteTitle() {
