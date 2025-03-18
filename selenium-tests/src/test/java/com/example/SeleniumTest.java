@@ -12,7 +12,7 @@ import org.testng.annotations.Test;
 public class SeleniumTest {
 
     private WebDriver driver;
-    private String testUrl = System.getProperty("testUrl", "https://default-url.com");
+    private String testUrl = System.getProperty("testUrl", "https://youtube.com");
     private String browser = System.getProperty("browser", "chrome");
 
     @BeforeMethod
